@@ -5,11 +5,11 @@ import Logo from './Logo';
 
 const navItems = [
   { path: '/', label: 'Home', icon: Home },
+  { path: '/advisor', label: 'Model Advisor', icon: Lightbulb },
   { path: '/search', label: 'Search', icon: Search },
   { path: '/population', label: 'Population', icon: Users },
   { path: '/pareto', label: 'Pareto Front', icon: TrendingUp },
   { path: '/explain', label: 'Explain', icon: Brain },
-  { path: '/advisor', label: 'Model Advisor', icon: Lightbulb },
 ];
 
 export const Sidebar = () => {

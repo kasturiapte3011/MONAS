@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Play, RotateCcw, Download, Loader2 } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Play, RotateCcw, Download, Loader2, Save } from 'lucide-react';
 import { runSearch, addActivity, updateKPIs } from '../data/mockData';
 
 export const SearchPage = () => {
@@ -14,6 +14,8 @@ export const SearchPage = () => {
   const [logs, setLogs] = useState([]);
   const [isRunning, setIsRunning] = useState(false);
   const [initialized, setInitialized] = useState(false);
+
+  const result = useRef(null);
 
   const presets = [
     { name: 'Edge Search', config: { populationSize: 30, mutationRate: 0.15, crossoverRate: 0.6, generations: 15, objective: 'efficiency' } },
@@ -52,9 +54,12 @@ export const SearchPage = () => {
     addActivity('Search started', 'info');
 
     try {
-      const result = await runSearch(config);
-      result.logs.forEach(log => addLog(log));
-      
+      // const result = await runSearch(config);
+      // result.logs.forEach(log => addLog(log));
+      result.current = await runSearch(config);
+      result.current.logs.forEach(log => addLog(log));
+
+
       // Update KPIs
       updateKPIs({
         currentGeneration: config.generations,
@@ -80,6 +85,13 @@ export const SearchPage = () => {
     a.download = `monas-search-${Date.now()}.json`;
     a.click();
     addLog('[INFO] Results exported');
+  };
+
+  const handleSavePlan = () => {
+    const plan = { result: result.current, config, timestamp: new Date().toISOString() };
+    localStorage.setItem(`evolved-plan-${Date.now()}`, JSON.stringify(plan));
+    addActivity('Model build plan saved', 'success');
+    alert('Plan saved to local storage!');
   };
 
   const handleClearLogs = () => {
@@ -256,6 +268,15 @@ export const SearchPage = () => {
           >
             <Download size={18} />
             Export Results
+          </button>
+
+          <button
+            onClick={handleSavePlan}
+            disabled={!initialized || isRunning || logs.length === 0}
+            className="flex-1 px-4 py-2 bg-muted text-foreground rounded-lg font-medium hover:bg-muted/70 transition-all flex items-center justify-center gap-2"
+          >
+            <Save size={18} />
+            Save Plan
           </button>
         </div>
       </div>
