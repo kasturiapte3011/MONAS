@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        /* Core colors - Dark scientific theme with teal/cyan accents */
+        --background: 217 20% 9%;           /* #0f1720 - deep navy background */
+        --foreground: 200 20% 92%;          /* #e6eef3 - light text */
+        --card: 217 18% 10%;                /* #1a1f29 - slightly lighter cards */
+        --card-foreground: 200 20% 92%;
+        --popover: 217 18% 10%;
+        --popover-foreground: 200 20% 92%;
+        
+        /* Primary - Teal/Cyan accent */
+        --primary: 188 94% 43%;             /* #06b6d4 - bright teal */
+        --primary-foreground: 217 20% 9%;
+        --primary-glow: 174 100% 48%;       /* #00f5d4 - bright cyan */
+        
+        /* Secondary & Muted */
+        --secondary: 217 15% 18%;           /* darker card variant */
+        --secondary-foreground: 200 20% 92%;
+        --muted: 220 13% 18%;               /* #2a3340 */
+        --muted-foreground: 220 9% 62%;     /* #9ca3af - muted text */
+        
+        /* Accent colors */
+        --accent: 188 94% 43%;              /* same as primary */
+        --accent-foreground: 217 20% 9%;
+        --accent-2: 174 100% 48%;           /* bright cyan variant */
+        
+        /* Status colors */
+        --destructive: 0 84% 60%;
+        --destructive-foreground: 200 20% 92%;
+        --success: 142 76% 36%;             /* green for positive metrics */
+        --success-foreground: 200 20% 92%;
+        --warning: 38 92% 50%;              /* orange for warnings */
+        --warning-foreground: 217 20% 9%;
+        
+        /* UI elements */
+        --border: 217 18% 18%;              /* subtle borders */
+        --input: 217 18% 15%;
+        --ring: 188 94% 43%;                /* focus ring - teal */
+        
+        /* Chart colors for data viz */
+        --chart-1: 188 94% 43%;             /* teal */
+        --chart-2: 174 100% 48%;            /* cyan */
+        --chart-3: 142 76% 36%;             /* green */
+        --chart-4: 38 92% 50%;              /* orange */
+        --chart-5: 271 76% 53%;             /* purple */
+        
+        /* Custom tokens */
+        --glass: rgba(255, 255, 255, 0.03); /* glass effect */
+        --shadow-elegant: 0 10px 30px -10px hsl(188 94% 43% / 0.3);
+        --shadow-glow: 0 0 40px hsl(174 100% 48% / 0.2);
+        --gradient-primary: linear-gradient(135deg, hsl(188 94% 43%), hsl(174 100% 48%));
+        --gradient-subtle: linear-gradient(180deg, hsl(217 18% 10%), hsl(217 20% 9%));
+        
+        --radius: 0.75rem;                   /* 12px */
+        --transition-smooth: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground antialiased;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-semibold;
+    }
+    
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: hsl(var(--background));
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: hsl(var(--muted));
+        border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: hsl(var(--muted-foreground));
+    }
+    
+    /* Focus styles for accessibility */
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+        outline: 2px solid hsl(var(--ring));
+        outline-offset: 2px;
+    }
+}
+
+@layer components {
+    /* Glass effect utility */
+    .glass {
+        background: rgba(26, 31, 41, 0.6);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Gradient text */
+    .gradient-text {
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    /* Glow effect */
+    .glow {
+        box-shadow: var(--shadow-glow);
+    }
+    
+    /* Data card with subtle animation */
+    .data-card {
+        @apply bg-card border border-border rounded-xl p-6 transition-all duration-200;
+    }
+    
+    .data-card:hover {
+        @apply border-primary/50 shadow-lg;
+        box-shadow: 0 8px 24px -8px hsl(188 94% 43% / 0.2);
+    }
+}
+
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+code, pre, .code-font {
+    font-family: 'Space Mono', 'Courier New', monospace;
+}
+
+@layer base {
+    [data-debug-wrapper="true"] {
+        display: contents !important;
+    }
+
+    [data-debug-wrapper="true"] > * {
+        margin-left: inherit;
+        margin-right: inherit;
+        margin-top: inherit;
+        margin-bottom: inherit;
+        padding-left: inherit;
+        padding-right: inherit;
+        padding-top: inherit;
+        padding-bottom: inherit;
+        column-gap: inherit;
+        row-gap: inherit;
+        gap: inherit;
+        border-left-width: inherit;
+        border-right-width: inherit;
+        border-top-width: inherit;
+        border-bottom-width: inherit;
+        border-left-style: inherit;
+        border-right-style: inherit;
+        border-top-style: inherit;
+        border-bottom-style: inherit;
+        border-left-color: inherit;
+        border-right-color: inherit;
+        border-top-color: inherit;
+        border-bottom-color: inherit;
+    }
+}
