@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Brain, Loader2, Info } from 'lucide-react';
-import { generateExplanation } from '../data/mockData';
+import { generateExplanation } from '../data/Data';
 
 export const ExplainPage = () => {
   const [modelId, setModelId] = useState('model_42');

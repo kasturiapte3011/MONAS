@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Lightbulb, Loader2, Download, Save, PlayCircle } from 'lucide-react';
-import { advisorSuggest, addActivity, updateKPIs } from '../data/mockData';
+import { advisorSuggest, addActivity, updateKPIs } from '../data/Data';
 
 export const AdvisorPage = () => {
   const [formData, setFormData] = useState({
@@ -48,14 +48,14 @@ export const AdvisorPage = () => {
     }
   };
 
-  const handleSavePlan = () => {
-    if (!suggestion) return;
+  // const handleSavePlan = () => {
+  //   if (!suggestion) return;
     
-    const plan = { formData, suggestion, timestamp: new Date().toISOString() };
-    localStorage.setItem(`advisor-plan-${Date.now()}`, JSON.stringify(plan));
-    addActivity('Model build plan saved', 'success');
-    alert('Plan saved to local storage!');
-  };
+  //   const plan = { formData, suggestion, timestamp: new Date().toISOString() };
+  //   localStorage.setItem(`advisor-plan-${Date.now()}`, JSON.stringify(plan));
+  //   addActivity('Model build plan saved', 'success');
+  //   alert('Plan saved to local storage!');
+  // };
 
   const handleExportPlan = () => {
     if (!suggestion) return;
@@ -431,13 +431,13 @@ export const AdvisorPage = () => {
               <div className="data-card">
                 <h3 className="text-sm font-semibold mb-3">Actions</h3>
                 <div className="flex flex-wrap gap-3">
-                  <button
+                  {/* <button
                     onClick={handleSavePlan}
                     className="flex-1 px-4 py-2 bg-muted text-foreground rounded-lg font-medium hover:bg-muted/70 transition-all flex items-center justify-center gap-2"
                   >
                     <Save size={18} />
                     Save Plan
-                  </button>
+                  </button> */}
                   <button
                     onClick={handleExportPlan}
                     className="flex-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all flex items-center justify-center gap-2"

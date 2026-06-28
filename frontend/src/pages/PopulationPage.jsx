@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Download, SortAsc, Eye, X, Loader2 } from 'lucide-react';
-import { fetchPopulation } from '../data/mockData';
+import { fetchPopulation } from '../data/Data';
 
 export const PopulationPage = () => {
   const [population, setPopulation] = useState([]);

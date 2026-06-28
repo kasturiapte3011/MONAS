@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Download, Info, X, Loader2, ZoomIn } from 'lucide-react';
-import { fetchPareto } from '../data/mockData';
+import { fetchPareto } from '../data/Data';
 
 export const ParetoPage = () => {
   const [data, setData] = useState([]);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Play, Database, Lightbulb, TrendingUp, Activity, Zap } from 'lucide-react';
-import { getKPIs, getActivityLog } from '../data/mockData';
+import { getKPIs, getActivityLog, fetchKPIs, fetchActivityLog } from '../data/Data';
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -9,13 +9,35 @@ export const HomePage = () => {
   const [activities, setActivities] = useState(getActivityLog());
 
   useEffect(() => {
-    // Update KPIs periodically
-    const interval = setInterval(() => {
-      setKpis(getKPIs());
-      setActivities(getActivityLog());
-    }, 2000);
+    let mounted = true;
+
+    const loadDashboard = async () => {
+      try {
+        const [nextKpis, nextActivities] = await Promise.all([
+          fetchKPIs(),
+          fetchActivityLog()
+        ]);
+
+        if (mounted) {
+          setKpis(nextKpis);
+          setActivities(nextActivities);
+        }
+      } catch (error) {
+        console.error('Failed to load backend dashboard data:', error);
+        if (mounted) {
+          setKpis(getKPIs());
+          setActivities(getActivityLog());
+        }
+      }
+    };
+
+    loadDashboard();
+    const interval = setInterval(loadDashboard, 2000);
     
-    return () => clearInterval(interval);
+    return () => {
+      mounted = false;
+      clearInterval(interval);
+    };
   }, []);
 
   const quickActions = [
@@ -29,28 +51,28 @@ export const HomePage = () => {
       label: 'Best Accuracy', 
       value: (kpis.bestAccuracy * 100).toFixed(1) + '%', 
       icon: TrendingUp,
-      trend: '+2.3%',
+      trend: '',
       color: 'success'
     },
     { 
       label: 'Best Tradeoff', 
       value: `${(kpis.bestTradeoff.accuracy * 100).toFixed(1)}% @ ${kpis.bestTradeoff.flops}M`, 
       icon: Zap,
-      trend: 'Optimal',
+      trend: '',
       color: 'primary'
     },
     { 
       label: 'Current Generation', 
       value: kpis.currentGeneration, 
       icon: Activity,
-      trend: 'Active',
+      trend: '',
       color: 'accent-2'
     },
     { 
       label: 'Total Evaluations', 
       value: kpis.totalEvaluations, 
       icon: Database,
-      trend: '+12 recent',
+      trend: '',
       color: 'muted'
     },
   ];
@@ -68,7 +90,7 @@ export const HomePage = () => {
               Multi-Objective Neural Architecture Search Platform
             </p>
             <p className="text-sm text-muted-foreground mt-2">
-              Explore, optimize, and explain neural network architectures with cutting-edge genetic algorithms.
+              Explores, optimizes, and explains neural network architectures with cutting-edge genetic algorithms.
             </p>
           </div>
           <div className="bg-primary/10 p-4 rounded-lg">
